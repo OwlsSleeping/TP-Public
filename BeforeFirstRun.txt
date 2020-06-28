@@ -1,0 +1,7 @@
+#Changes To ExecutionPolicy require running powershell as admin. What this does is allows running .PS1 files that you've saved yourself.
+#If you don't want to change ExecutionPolicy, it can instead be bypassed using the "-ExecutionPolicy Bypass" flag in console.
+Set-ExecutionPolicy RemoteSigned
+
+#This part downloads the module "Join-Object" from the powershell gallery.
+#If PS is not updated, it may require clicking yes through prompts to install nuget (package manager) and confirm that you're happy to download from Microsoft's gallery
+Install-Module -Name Join-Object

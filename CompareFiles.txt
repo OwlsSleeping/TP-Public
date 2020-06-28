@@ -1,0 +1,22 @@
+﻿#Note- Import-Module is Only required for older versions of powershell. Try running it without, if you get an error containing "Import-Module" then uncomment.
+#Import-Module -Name Join-Object 
+
+#Import Files
+$File1 = Import-Csv -Path 'C:\Users\peppy\Documents\Powershell Scripts\txtdummyinput.txt' -Delimiter `t
+$File2 = Import-Csv -Path 'C:\Users\peppy\Documents\Powershell Scripts\dummyinput.csv'
+
+#Differences in Primary Key
+Compare-Object -ReferenceObject $File1 -DifferenceObject $File2 -Property PK |
+    Export-Csv -Path 'C:\Users\peppy\Documents\Powershell Scripts\diff.csv'
+
+#Differences in Value
+$JoinParams = @{
+    Left = $File1
+    Right = $File2
+    LeftJoinProperty = 'PK'
+    RightJoinProperty = 'PK'
+    Type = 'OnlyIfInBoth'
+}
+Join-Object @JoinParams | 
+    Where-Object {($_.Left1 -ne $_.Right1) -Or ($_.Left2 -ne $_.Right2) -Or ($_.Left3 -ne $_.Right3) -Or ($_.Left4 -ne $_.Right4)} |
+    Export-Csv -Path 'C:\Users\peppy\Documents\Powershell Scripts\DiffVals.csv'
